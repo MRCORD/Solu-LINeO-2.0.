@@ -19,7 +19,6 @@ Werkzeug==0.16.0
 WTForms==2.2.1
 
 deploy on run.py --- >  ./run.py  or python(3) run.py
-debug = True
 
 
 
