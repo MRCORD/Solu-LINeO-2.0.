@@ -97,7 +97,7 @@ def inicio_sesion():
 
 
 @app.route("/login", methods = ['POST', 'GET'])
-def iniciar():
+def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         #usuario = Usuario.query.filter_by(email=form.email.data).first()
@@ -418,4 +418,5 @@ def pago_tarjeta():
     with sqlite3.connect('database.db') as con:
             try:
                 cur = con.cursor()
-                cur.execute(("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',)"""
+                cur.execute(("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',cvv,titular))
+"""
