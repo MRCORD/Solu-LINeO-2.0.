@@ -14,7 +14,7 @@ def home():
 
 
 @app.route("/registerationForm", methods = ['GET', 'POST'])
-def register():
+def registro():
     form = RegistrationForm(request.form)
     if request.method == 'POST' and form.validate():
         hash_password = bcrypt.generate_password_hash(form.password.data)
@@ -77,7 +77,7 @@ def register():
     return render_template('admin/registro.html', form=form, title = 'Pagina registro')
 '''
 
-def is_valid(email, password):
+def valido(email, password):
     con = sqlite3.connect('database.db')
     cur = con.cursor()
     cur.execute('SELECT email, password FROM usuario')
@@ -88,7 +88,7 @@ def is_valid(email, password):
     return False
 
 @app.route("/loginForm")
-def loginForm():
+def inicio_sesion():
     if 'email' in session:
         return redirect(url_for('onlineStore'))
     else:
@@ -97,7 +97,7 @@ def loginForm():
 
 
 @app.route("/login", methods = ['POST', 'GET'])
-def login():
+def iniciar():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         #usuario = Usuario.query.filter_by(email=form.email.data).first()
@@ -125,7 +125,7 @@ def login():
 
 
 @app.route("/addToCart")
-def addToCart():
+def añadirCarrito():
     if 'email' not in session:
         return redirect(url_for('login'))
     productId = int(request.args.get('productId'))
@@ -233,7 +233,7 @@ def onlineStore():
 
 
 @app.route("/checkout2", methods=['GET', 'POST'])
-def payment2():
+def pago2():
     if 'email' not in session:
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
@@ -260,7 +260,7 @@ def payment2():
 
 
 @app.route("/checkout", methods=["GET","POST"])
-def payment():
+def pago():
     if 'email' not in session:
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
@@ -323,7 +323,7 @@ def payment():
 
 
 @app.route("/removeFromCart")
-def removeFromCart():
+def borarrDeCarrito():
     if 'email' not in session:
         return redirect(url_for('login'))
     email = session['email']
@@ -346,12 +346,12 @@ def removeFromCart():
     return redirect(url_for('cart'))
 
 @app.route("/logout")
-def logout():
+def cerrar_sesion():
     session.pop('email', None)
     return redirect(url_for('login'))
 
 @app.route("/cart")
-def cart():
+def carrito():
     if 'email' not in session:
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
@@ -371,7 +371,7 @@ def cart():
 
 
 @app.route("/productDescription")
-def productDescription():
+def Descripcionproducto():
     loggedIn, firstName, noOfItems = getLoginDetails()
     productId = request.args.get('productId')
     with sqlite3.connect('database.db') as conn:
