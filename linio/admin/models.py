@@ -62,7 +62,7 @@ class Pedido(db.Model):
     fecha_pedido = db.Column(db.Integer)
     id_carrito = db.Column(db.Integer, db.ForeignKey('carrito.id_carrito'), nullable=False)
     estado = db.Column(db.String(3), unique=False, nullable=False)
-    monto = db.Column(db.Numeric(10, 2), unique=False, nullable=False)
+    #monto = db.Column(db.Numeric(10, 2), unique=False, nullable=False)
 
     def __repr__(self):
         return '<pedido %r>' % self.id_pedido
