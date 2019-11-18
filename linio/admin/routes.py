@@ -314,7 +314,7 @@ def pago():
             totalPrice += row[2]
         envio = 10
         totalPrice = float(totalPrice) +envio
-        cur.execute("ALTER TABLE carrito set monto ='"+ totalPrice+"'where id_usuario" + str(userId) )
+        cur.execute("update carrito SET monto = ? where id_usuario = ? ", (totalPrice, userId) )
         
 
         db.session.commit()
