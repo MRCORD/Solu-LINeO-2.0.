@@ -1,6 +1,6 @@
 from flask import *
 from linio import app, db, bcrypt
-from .models import Usuario
+from .models import *
 from .forms import *
 import sqlite3, hashlib, os
 import os
@@ -265,13 +265,13 @@ def payment():
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
     email = session['email']
-
-    form1 = PagoForm(request.form)
+    """
+    form = PagoForm(request.form)
 #    form2 = TarjetaForm(request.form)
-    if request.method == 'POST' and form1.validate():
+    if request.method == 'POST' and form.validate():
         def cipgenerar(stringLength=9):
             caracteres = string.ascii_letters + string.digits
-            return ''.join(random.choice(caracteres))
+            return ''.join(random.choice(caracteres) for i in range(stringLength))
 
             #pago = payment(tipo=form1.tipo.data)
         #db.session.add(pago)
@@ -298,7 +298,7 @@ def payment():
      #           pago = pago(cvv=form2.cvv.data, nombre_titular=form2.titular.data)
       #          cur.execute("INSERT INTO pago(cvv, nombre_titular), VALUES(?,?),"(pago.cvv, pago.nombre_titular))
        #         return redirect(url_for('onlineStore'))
-
+    """
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
         cur.execute("SELECT id_usuario FROM usuario WHERE email = '" + email + "'")
@@ -316,7 +316,8 @@ def payment():
         db.session.commit()
 
         return render_template("admin/checkout.html", products=products, totalPrice=totalPrice, loggedIn=loggedIn,
-                       firstName=firstName, noOfItems=noOfItems, form=form1)
+                       firstName=firstName, noOfItems=noOfItems#, form=form#
+                       )
 
 
 @app.route("/removeFromCart")
@@ -377,5 +378,36 @@ def productDescription():
         productData = cur.fetchone()
     conn.close()
     return render_template("admin/productDescription.html", data=productData, loggedIn = loggedIn, firstName = firstName, noOfItems = noOfItems)
+
+
+@app.route("/efectivo")
+def pago_efectivo():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    email = session['email']
+    def cipgenerar(stringLength=9):
+            caracteres = string.ascii_letters + string.digits
+            return ''.join(random.choice(caracteres) for i in range(stringLength))
+
+    cip = cipgenerar()
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        
+        cur.execute("INSERT INTO pago(tipo, cvv, nombre_titular, codigo_cip) VALUES(?,?,?,?)" , ('EFE', '', '', cip))
+    
+    return render_template("admin/efectivo.html", cip = cip)
+
+
+@app.route("/tarjeta", methods = ['POST', 'GET'])
+def pago_tarjeta():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    email = session['email']
+
+    form = TarjetaForm(request.form)
+
+
 
 

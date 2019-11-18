@@ -50,13 +50,13 @@ body {font-size:16px;}
         <hr>
 
     <div>
-		<h2>Items</h2>
+		<h2>Productos</h2>
 		{% for data in itemData%}
 		<table>
 			<tr id="productName">
 				{% for row in data %}
 				<td>
-					{{row[1]}}
+					<label style="font-size: 17px">{{row[1]}}</label>
 				</td>
 				{% endfor %}
 			</tr>
@@ -84,7 +84,7 @@ body {font-size:16px;}
         		<!-- <td><input type="text" size="10"/></td> -->
         		<td>
         			<a href="/productDescription?productId={{row[0]}}">
-						Comprar
+						Añadir al carrito
 
 						<!-- <img src={{ url_for('static', filename='uploads/' + row[4]|string) }} id="itemImage" /> -->
 					</a>

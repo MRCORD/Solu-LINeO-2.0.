@@ -28,12 +28,8 @@
 		</div>
 		<div><a href="/">Return to Home Page</div>
 		   <hr>
-			{% from "_formhelpers.html" import render_field %}
-			<form action="/checkout" method="POST" enctype='multipart/form-data'>
-				{{ render_field(form.tipo, class = 'form-control') }}
-				<p><input type=submit value='Pagar con efectiivo' class = 'btn btn-info'></p>
-				</section>
-			</form>
+			<a href="/efectivo">Pagar con efectivo</a>
+			<a href="/tarjeta">Pagar con tarjeta</a>
         <hr>
 	</div>
 </div>

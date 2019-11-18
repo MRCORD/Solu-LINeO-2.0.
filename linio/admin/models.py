@@ -7,20 +7,6 @@ class Usuario(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(30), unique=False, nullable=False)
     telefono = db.Column(db.String(9), unique=False, nullable=False)
-    distrito = db.Column(db.String(2), unique=False, nullable=False)
-    direccion = db.Column(db.String(40), unique=False, nullable=False)
-    nro_tarjeta = db.Column(db.String(16), unique=False, nullable=False)
-    def __repr__(self):
-        return '<Usuario %r>' % self.username
-
-'''
-class Usuario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(30), unique=False, nullable=False)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(30), unique=False, nullable=False)
-    telefono = db.Column(db.String(9), unique=False, nullable=False)
     distrito = db.Column(db.String(20), unique=False, nullable=False)
     direccion = db.Column(db.String(40), unique=False, nullable=False)
     nro_tarjeta = db.Column(db.String(16), unique=False, nullable=False)
@@ -99,6 +85,6 @@ class Carrito_producto(db.Model):
     id_carrito = db.Column(db.Integer, db.ForeignKey('carrito.id_carrito'), nullable=False)
     id_producto = db.Column(db.Integer, db.ForeignKey('producto.id_producto'), nullable=False)
 
-'''
-db.create_all()
+
+#db.create_all()
 
