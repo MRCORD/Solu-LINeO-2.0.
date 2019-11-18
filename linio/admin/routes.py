@@ -125,7 +125,7 @@ def login():
 
 
 @app.route("/addToCart")
-def añadirCarrito():
+def addToCart():
     if 'email' not in session:
         return redirect(url_for('login'))
     productId = int(request.args.get('productId'))
@@ -323,7 +323,7 @@ def pago():
 
 
 @app.route("/removeFromCart")
-def borarrDeCarrito():
+def removeFromCart():
     if 'email' not in session:
         return redirect(url_for('login'))
     email = session['email']
@@ -346,12 +346,12 @@ def borarrDeCarrito():
     return redirect(url_for('cart'))
 
 @app.route("/logout")
-def cerrar_sesion():
+def logout():
     session.pop('email', None)
     return redirect(url_for('login'))
 
 @app.route("/cart")
-def carrito():
+def cart():
     if 'email' not in session:
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
