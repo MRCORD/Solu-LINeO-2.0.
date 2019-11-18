@@ -21,8 +21,8 @@ def registro():
         usuario = Usuario(nombre=form.nombre.data, username=form.username.data, email =form.email.data,
                             password =hash_password, telefono=form.telefono.data, distrito=form.distrito.data,
                             direccion=form.direccion.data, nro_tarjeta=form.tarjeta.data)
-        db.session.add(usuario)
-        db.session.commit()
+        #db.session.add(usuario)
+        #db.session.commit()
         with sqlite3.connect('database.db') as con:
             try:
                 cur = con.cursor()
@@ -400,7 +400,6 @@ def pago_efectivo():
     
     return render_template("admin/efectivo.html", cip = cip)
 
-"""
 @app.route("/tarjeta", methods = ['POST', 'GET'])
 def pago_tarjeta():
     if 'email' not in session:
@@ -416,7 +415,8 @@ def pago_tarjeta():
         titular = form.titular.data        
         
     with sqlite3.connect('database.db') as con:
-            try:
-                cur = con.cursor()
-                cur.execute(("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',cvv,titular))
-"""
+        cur = con.cursor()
+        cur.execute("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',cvv,titular))
+        con.commit()
+
+    
