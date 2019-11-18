@@ -1,0 +1,192 @@
+
+<!--
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Linio | Carrito de Compras</title>
+	<link rel="stylesheet" href={{url_for('static', filename='css/cart.css')}} />
+	<link rel="stylesheet" href={{url_for('static', filename='css/topStyle.css') }} />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins" />
+
+	<style>
+		body {
+			font-family: "Poppins", sans-serif;
+		}
+
+		.cabecera {
+			background-color: #f44336;
+		}
+
+		#title {
+			background-color: #f44336;
+			display: inline-block;
+			width: 100%;
+		}
+
+	</style>
+
+</head>
+<body>
+<div id="title" class="cabecera">
+	<a href="/">
+	<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+	</a>
+	<form>
+		<input id="searchBox" type="text" name="searchQuery">
+		<input id="searchButton" type="submit" value="Search">
+	</form>
+
+	{% if not loggedIn %}
+		<div id="signInButton">
+			<a class="link" href="/loginForm">Sign In</a>
+		</div>
+	{% else %}
+	<div class="dropdown">
+		<button class="dropbtn">Hello, <br>{{firstName}}</button>
+		<div class="dropdown-content">
+			<a href="/account/orders">Your orders</a>
+			<a href="/account/profile">Your profile</a>
+			<hr>
+			<a href="/logout">Sign Out</a>
+		</div>
+	</div>
+	{% endif %}
+	<div id="kart">
+		<a class="link" href="/cart">
+		<img src={{url_for('static', filename='images/shoppingCart.png')}} id="cartIcon" />
+		CART {{noOfItems}}
+		</a>
+	</div>
+</div>
+
+
+
+<div id="cartItems">
+	<h2>Shopping Cart</h2>
+
+	<div id="tableItems">
+		{% for row in products %}
+		<div>
+			<hr id="seperator">
+			<div id="itemImage">
+				<img src={{url_for('static', filename='uploads/'+row[3])}} id="image"/>
+			</div>
+			<div id="itemName">
+				<span id="itemNameTag">{{row[1]}}</span><br>
+				In stock<br>
+				<a href="/removeFromCart?productId={{row[0]}}">Remove</a>
+			</div>
+			<div id="itemPrice">
+				${{row[2]}}
+			</div>
+		</div>
+		{% endfor %}
+		<hr id="seperator">
+		<div id="total">
+			<span id="subtotal">Subtotal</span> : ${{totalPrice}}
+		</div>
+	</div>
+
+</div>
+<a href="/checkout">Proceed to checkout</a>
+</body>
+</html>
+-->
+
+<html lang="en">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" >
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" >
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+
+table.dataTable td, table.dataTable th {
+    padding: 8;
+}
+
+</style>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+  <div class="w3-container">
+    <h3 class="w3-padding-64"><b>Somos<br>Linio</b></h3>
+  </div>
+  <div class="w3-bar-block">
+    <a href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Inicio</a>
+    <a href="/cart" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Ir a carrito</a>
+<!--<a href="#services" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Categorias</a>
+<a href="#designers" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Usuario</a>-->
+    <a href="/logout" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Salir de Linio</a>
+  </div>
+</nav>
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+
+   <input src=".../main/templates/pago_tarjeta.html" name="Categoria">
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>Linio </b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Carrito de Compras</b></h1>
+
+	  <div id="cartItems">
+	<h2>Shopping Cart</h2>
+
+	  <table id="tblDatos" style="width: 100%">
+		  <thead style="background-color: #f44336; color: white; padding: 10px">
+		  	<th	>Producto </th>
+		  	<th	>Precio </th>
+		  	<th	>Acciones </th>
+		  </thead>
+		  {% for row in products %}
+			  <tr style="padding: 5px">
+				  <td>
+					  <img src={{url_for('static', filename=''+row[3])}} height="180px" id="image"/>
+					  <span>{{row[1]}}</span>
+
+				  </td>
+				  <td>${{row[2]}}</td>
+				  <td><a href="/removeFromCart?productId={{row[0]}}">Quitar</a></td>
+			  </tr>
+		  {% endfor %}
+	  </table>
+
+	  <div id="total" style="float: right">
+			<span id="subtotal">Subtotal</span> : ${{totalPrice}}
+		  	<BR/>
+		  	<a href="/checkout">PROCEDER CON EL PAGO</a>
+		</div>
+
+  </div>
+<!-- End page content -->
+	  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+	  <script>
+		  $(document).ready(function() {
+				$('#tblDatos').DataTable({
+				  "info": false,
+				  "paging": false,
+				  "searching": false
+				} );
+			} );
+	  </script>
+
+</div>
+
+
+
+
