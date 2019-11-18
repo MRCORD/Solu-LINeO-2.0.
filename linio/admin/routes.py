@@ -312,10 +312,12 @@ def payment():
         totalPrice = 0
         for row in products:
             totalPrice += row[2]
+        envio = 10
+        totalPrice = float(totalPrice) +envio
 
         db.session.commit()
 
-        return render_template("admin/checkout.html", products=products, totalPrice=totalPrice, loggedIn=loggedIn,
+        return render_template("admin/checkout.html", products=products, envio=envio, totalPrice=totalPrice, loggedIn=loggedIn,
                        firstName=firstName, noOfItems=noOfItems#, form=form#
                        )
 
@@ -398,7 +400,7 @@ def pago_efectivo():
     
     return render_template("admin/efectivo.html", cip = cip)
 
-
+"""
 @app.route("/tarjeta", methods = ['POST', 'GET'])
 def pago_tarjeta():
     if 'email' not in session:
@@ -408,6 +410,12 @@ def pago_tarjeta():
 
     form = TarjetaForm(request.form)
 
-
-
-
+    if request.method == 'POST' and form.validate():
+        #tarjeta = form.tarjeta.data
+        cvv = form.cvv.data
+        titular = form.titular.data        
+        
+    with sqlite3.connect('database.db') as con:
+            try:
+                cur = con.cursor()
+                cur.execute(("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',)"""
