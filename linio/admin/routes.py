@@ -410,15 +410,17 @@ def pago_tarjeta():
     email = session['email']
 
     form = TarjetaForm(request.form)
-
+    pago = Pago(cvv = form.cvv.data, nombre_titular = form.titular.data)
+    
     if request.method == 'POST' and form.validate():
-        #tarjeta = form.tarjeta.data
-        cvv = form.cvv.data
-        titular = form.titular.data        
-        
-    with sqlite3.connect('database.db') as con:
-        cur = con.cursor()
-        cur.execute("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',cvv,titular))
-        con.commit()
+        with sqlite3.connect('database.db') as con:
+            cur = con.cursor()
+            cur.execute("SELECT tarjeta FROM usuario WHERE email = '" + email + "'")
+            tarjeta = cur.fetchone()
+            cur.execute("INSERT INTO pago(tipo,cvv, nombre_titular), VALUES(?,?,?)", ('TAR',pago.cvv,pago.titular))
+            db.session.commit()
+        con.close()
+        return render_template('admin/tarjeta.html')
+    return render_template('admin/tarjeta.html', form = form)
 
     
