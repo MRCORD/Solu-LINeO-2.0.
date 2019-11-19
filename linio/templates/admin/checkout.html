@@ -15,7 +15,7 @@ body {font-size:16px;}
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
- 
+
 
 </nav>
 
@@ -25,15 +25,13 @@ body {font-size:16px;}
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>Linio </b></h1>
-    <h1 class="w3-xxxlarge w3-text-red"><b>Carrito de compras</b></h1>
+    <h1 class="w3-xxlarge w3-text-red"><b>Resumen: Carrito de compras + Envío</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
- 
-  <p>Tu carrito contiene estos productos</p>
 <div id="cartItems">
-<h2><b>PRODUCTOS:</b></h2>
+<h2><b>PRODUCTOS DEL CARRITO:</b></h2>
 <div id="tableItems">
-   
+
 {% for row in products %}
 <div>
 <hr id="seperator">
@@ -45,7 +43,7 @@ S/{{row[2]}}
 </div>
 </div>
 {% endfor %}
-       
+
 <hr id="seperator">
 <div id="total">
 <span id="subtotal">Costo de envío:
@@ -56,34 +54,27 @@ S/{{row[2]}}
 </span> S/{{totalPrice}}
 <span if="deliverydate"></span>
 </div>
-       
- <h2><b>¿Está seguro que no desea agregar nada más a su carrito?</b></h2>
+ <p>Para más información sobre tarifa de envío leer </p><a href="/tyc"><h1 class="w3-large w3-text-red">Términos y condiciones  </a> </h1>
 
+ <form>
+  <h2><b>Elegir Comprobante de Pago</b></h2>
+   <input id="boleta" size=100px type="radio" name="searchQuery" value="Factura">
+ <label for="boleta">Boleta</label>
+ <br>
+ <input id="factura" size=100px type="radio" name="searchQuery" value="Factura">
+ <label for="factura">Factura </label><input class="form-control" id="direccion" name="direccion" type="text" value="Ingrese Ruc">
+</form>
 </div>
 </div>
- 
-
-   <center>
- 
+  <h2><b>Elegir Método de Pago</b></h2>
 <h4 class="w3-large w3-text-red"><b>Elegir Efectivo
 <a href="/efectivo">Pagar con efectivo</a>
 
-<form action="/tarjeta" method="POST">
 <h4 class="w3-large w3-text-red"><b>Elegir Tarjeta
-
 <a href="/tarjeta">Pagar con tarjeta</a>
- 
- <br>
- <br>
- <h2 class="w3-large w3-text-black"><b>¿Desea seguir comprando?</b></h2>
-
-
-<div><a href="/">Seguir comprando</div>
-		  
-	</div
 
 
 
- 
+
 <!-- End page content -->
 </div>

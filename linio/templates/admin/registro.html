@@ -1,8 +1,6 @@
 {% extends "layout_registro.html" %}
-
 {% block content %}
 <br>
-<div class = 'text-center h1'> Registrar </div>
 <div class = 'container'>
  {% include  '_messages.html' %}
 {% from "_formhelpers.html" import render_field %}
@@ -20,7 +18,7 @@
             {{ render_field(form.accept_tos, class = 'form-control' ) }}
 
         </div>
-    <p><input type=submit value='Register' class = 'btn btn-info'></p>
+    <p><input type=submit value='Registrar Usuario' class = 'btn btn-info'></p>
     </form>
 
 </div>

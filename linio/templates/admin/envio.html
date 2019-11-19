@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html lang="en">
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+</style>
+<body>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+
+
+</nav>
+
+<!-- !no borrar importante! -->
+<div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>Solicitud de envío </b></h1>
+    <h1 class="w3-xlarge w3-text-red"><b>Selecciona tu distrito y coloca tu dirección de entrega.
+
+
+    </b></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+
+
+<br>
+<div class = 'container'>
+
+
+    <form method=post enctype='multipart/form-data'>
+        <div>
+
+
+  <dt><label for="distrito">Distrito</label>
+  <dd><select class="form-control" id="distrito" name="distrito"><option value="SM">San Miguel</option><option value="PL">Pueblo Libre</option><option value="JM">Jesús Maria</option><option value="MA">Magdalena</option><option value="LI">Lince</option><option value="SI">San Isidro</option><option value="MI">Miraflores</option><option value="SU">Surquillo</option><option value="SB">San Borja</option><option value="BA">Barranco</option><option value="SU">Santiago de Surco</option><option value="MO">La Molina</option></select>
+
+  </dd>
+
+
+  <dt><label for="direccion">Direccion de Envío</label>
+  <dd><input class="form-control" id="direccion" name="direccion" type="text" value="">
+
+  </dd>
+
+
+
+
+  <dt><label for="accept_tos"> Acepto servicio de envío con un lapso determinado de 2 a 4 días. </label>
+  <dd><input class="form-control" id="accept_tos" name="accept_tos" required type="checkbox" value="y">
+
+  </dd>
+
+
+        </div>
+    </form>
+
+</div>
+<a href="/cart"><h1 class="w3-large w3-text-red">Abandonar Pedido  </a>
+
+<a href="/checkout"><h1 class="w3-large w3-text-red">Calcular costo de envío  </a>
+
+<!-- End page content -->
+</div>

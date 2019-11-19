@@ -423,4 +423,13 @@ def pago_tarjeta():
     
     return render_template('admin/tarjeta.html', form = form)
 
-    
+@app.route("/envio")
+def envio():
+    return render_template('admin/envio.html')
+@app.route("/tyc")
+def tyc():
+    return render_template('admin/tyc.html')
+@app.route("/pagoexitoso")
+def pagoexitoso():
+    return render_template('admin/pagoexitoso.html')
+
