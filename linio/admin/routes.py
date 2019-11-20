@@ -318,7 +318,7 @@ def pago():
         totalPrice = 0
         for row in products:
             totalPrice += row[2]
-        envio = 10
+        envio = 50
         totalPrice = float(totalPrice) +envio
         cur.execute("update carrito SET monto = ? where id_usuario = ? ", (totalPrice, userId) )
         
