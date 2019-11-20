@@ -414,6 +414,7 @@ def pago_tarjeta():
 
     
     form = TarjetaForm(request.form)
+
     pago = Pago(cvv = form.cvv.data, nombre_titular = form.titular.data)
     
     '''with sqlite3.connect('database.db') as con:
@@ -457,8 +458,14 @@ def envio():
 @app.route("/tyc")
 def tyc():
     return render_template('admin/tyc.html')
+
+
+
 @app.route("/pagoexitoso")
 def pagoexitoso():
+     
+
+
 
     return render_template('admin/pagoexitoso.html')
 
