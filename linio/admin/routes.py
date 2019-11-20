@@ -182,19 +182,21 @@ def parse(data):
 
 def  getIdCategoria(categoria):
     if(categoria == "Arte y Artesanias"):
-        return 1
+        return 8
     elif(categoria == "Computadoras"):
-        return 2
-    elif(categoria=="Moda"):
-        return 3
-    elif(categoria=="Belleza y cuidado personal"):
-        return 4
-    elif(categoria=="Salud y bienestar"):
-        return 5
-    elif(categoria=="Deportes"):
-        return 6
-    elif(categoria=="Jueguetes y Electrodomésticos"):
         return 7
+    elif(categoria=="Moda"):
+        return 6
+    elif(categoria=="Belleza y cuidado personal"):
+        return 5
+    elif(categoria=="Salud y bienestar"):
+        return 4
+    elif(categoria=="Deportes"):
+        return 3
+    elif(categoria=="Jueguetes"):
+        return 2
+    elif(categoria=="Electrodomésticos"):
+        return 1
 
 
 
@@ -205,6 +207,7 @@ def onlineStore():
     loggedIn, firstName, noOfItems = getLoginDetails()
     form = SearchForm(request.form)
     id_categoria = 1
+
     if request.method == 'POST':
         id_categoria = form.categoria.data
         #id_categoria = getIdCategoria(categoria)
@@ -409,8 +412,19 @@ def pago_tarjeta():
     loggedIn, firstName, noOfItems = getLoginDetails()
     email = session['email']
 
+    
     form = TarjetaForm(request.form)
     pago = Pago(cvv = form.cvv.data, nombre_titular = form.titular.data)
+    
+    '''with sqlite3.connect('database.db') as con:
+        cur = con.cursor()
+        cur.execute("SELECT nombre, nro_tarjeta FROM usuario WHERE email = '" + email + "'")
+        tarjeta = cur.fetchone()[0]
+        usuario = cur.fetchone()[1]
+        return tarjeta, usuario
+    conn.close()
+
+    nro_tarjeta  = tarjeta'''
     
 
     with sqlite3.connect('database.db') as con:
@@ -425,11 +439,26 @@ def pago_tarjeta():
 
 @app.route("/envio")
 def envio():
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    email = session['email']
+
+    
+
+
+
+
     return render_template('admin/envio.html')
+
+
+
+
 @app.route("/tyc")
 def tyc():
     return render_template('admin/tyc.html')
 @app.route("/pagoexitoso")
 def pagoexitoso():
+
     return render_template('admin/pagoexitoso.html')
 

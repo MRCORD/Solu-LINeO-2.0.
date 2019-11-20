@@ -25,8 +25,8 @@ class LoginForm(Form):
 
 
 class SearchForm(Form):
-    categoria = SelectField(u'Categoria', choices=[('1', 'Arte y Artesanias'), ('2', 'Computadoras'), ('3', 'Moda'),
-                            ('4','Belleza y cuidado personal'),('5','Salud'),('6','Deportes'),('7','Juguetes y Electrodomésticos')])
+    categoria = SelectField(u'Categoria', choices=[('1', 'Electrodomésticos'), ('2', 'Juguetes'), ('3', 'Deportes'),
+                            ('4','Salud'),('5','Belleza y cuidado personal'),('6','Moda'),('7','Computadoras'), ('8', 'Arte y Artesanias')])
 
 
 class PagoForm(Form):
@@ -38,3 +38,4 @@ class TarjetaForm(Form):
     tarjeta = StringField('Tarjeta de Credito',[validators.Length(min=16, max=16)] )
     cvv = StringField('CVV',[validators.Length(min=3, max=3)] )
     titular = StringField('Nombre', [validators.Length(min=4, max=20)])
+ 
