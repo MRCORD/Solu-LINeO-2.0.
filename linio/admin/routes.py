@@ -6,6 +6,7 @@ import sqlite3, hashlib, os
 import os
 import random
 import string
+from datetime import date
 
 @app.route('/home')
 def home():
@@ -33,6 +34,8 @@ def registro():
                              usuario.telefono, usuario.distrito, usuario.direccion,
                              usuario.nro_tarjeta))
                 con.commit()
+
+                
 
                 cur = con.cursor()
                 cur.execute("SELECT id_usuario FROM usuario WHERE email = '" + usuario.email + "'")
@@ -392,17 +395,23 @@ def pago_efectivo():
     if 'email' not in session:
         return redirect(url_for('login'))
     loggedIn, firstName, noOfItems = getLoginDetails()
+
     email = session['email']
     def cipgenerar(stringLength=9):
             caracteres = string.ascii_letters + string.digits
             return ''.join(random.choice(caracteres) for i in range(stringLength))
 
     cip = cipgenerar()
-    with sqlite3.connect('database.db') as conn:
-        cur = conn.cursor()
+    with sqlite3.connect('database.db') as con:
+        cur = con.cursor()
         
         cur.execute("INSERT INTO pago(tipo, cvv, nombre_titular, codigo_cip) VALUES(?,?,?,?)" , ('EFE', '', '', cip))
-    
+        con.commit()
+        #pedido = cur.fetchone()
+
+        cur.execute("INSERT INTO pedido(id_pago) select id_pago from pago order by id_pago desc limit 1 " )
+        #where id_usuario =(SELECT id_usuario FROM usuario WHERE email = '" + email + "')")
+        con.commit()
     return render_template("admin/efectivo.html", cip = cip)
 
 @app.route("/tarjeta", methods = ['POST', 'GET'])
@@ -414,28 +423,29 @@ def pago_tarjeta():
 
     
     form = TarjetaForm(request.form)
+    if request.method == 'POST' and form.validate():
 
-    pago = Pago(cvv = form.cvv.data, nombre_titular = form.titular.data)
-    
-    '''with sqlite3.connect('database.db') as con:
-        cur = con.cursor()
-        cur.execute("SELECT nombre, nro_tarjeta FROM usuario WHERE email = '" + email + "'")
-        tarjeta = cur.fetchone()[0]
-        usuario = cur.fetchone()[1]
-        return tarjeta, usuario
-    conn.close()
+        pago = Pago(cvv = form.cvv.data, nombre_titular = form.titular.data)
+        
+        '''with sqlite3.connect('database.db') as con:
+            cur = con.cursor()
+            cur.execute("SELECT nombre, nro_tarjeta FROM usuario WHERE email = '" + email + "'")
+            tarjeta = cur.fetchone()[0]
+            usuario = cur.fetchone()[1]
+            return tarjeta, usuario
+        conn.close()
 
-    nro_tarjeta  = tarjeta'''
-    
+        nro_tarjeta  = tarjeta'''
+        
 
-    with sqlite3.connect('database.db') as con:
-        cur = con.cursor()
-        """cur.execute("SELECT tarjeta FROM usuario WHERE email = '" + email + "'")
-        tarjeta = cur.fetchone()"""
-        cur.execute("INSERT INTO pago(tipo,cvv, nombre_titular, codigo_cip) VALUES(?,?,?,?)", ('TAR',pago.cvv,pago.nombre_titular,''))
-        db.session.commit()
-    con.close()
-    
+        with sqlite3.connect('database.db') as con:
+            cur = con.cursor()
+            """cur.execute("SELECT tarjeta FROM usuario WHERE email = '" + email + "'")
+            tarjeta = cur.fetchone()"""
+            cur.execute("INSERT INTO pago(tipo,cvv, nombre_titular, codigo_cip) VALUES(?,?,?,?)", ('TAR',pago.cvv,pago.nombre_titular,''))
+            db.session.commit()
+        con.close()
+        
     return render_template('admin/tarjeta.html', form = form)
 
 @app.route("/envio")
@@ -463,9 +473,28 @@ def tyc():
 
 @app.route("/pagoexitoso")
 def pagoexitoso():
-     
+    if 'email' not in session:
+        return redirect(url_for('login'))
+    loggedIn, firstName, noOfItems = getLoginDetails()
+    email = session['email']
+    
+    
+    estado = 'CON'
 
-
+    with sqlite3.connect('database.db') as con:
+       
+        today = date.today()
+        '''cur.execute("SELECT id_usuario FROM usuario WHERE email = '" + email + "'")
+        con.commit()
+        usuario =cur.fetchone()
+        cur.execute("SELECT id_carrito FROM carrito WHERE id_usuario='" + usuario+"'")
+        con.commit()
+        carrito =cur.fetchone()'''
+        cur = con.cursor()
+        cur.execute('UPDATE PEDIDO SET fecha_pedido = "'+ str(today) +'" , id_carrito= (select id_carrito from carrito where id_usuario = (SELECT id_usuario FROM usuario WHERE email = "' + email + '")), estado = "' +estado+ '" WHERE id_pedido = (select id_pedido from pedido order by id_pedido desc limit 1)')
+        con.commit()                
+        db.session.commit()
+    con.close()
 
     return render_template('admin/pagoexitoso.html')
 

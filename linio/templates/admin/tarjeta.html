@@ -39,12 +39,18 @@ body {font-size:16px;}
 </div>
 <center>
 <html>
-<form action="/pagoexitoso" method="POST">
-  <h4>Reingresa los datos</h4>
-  <h6>Nombre titular: <input type="text" name="nombre_titular" required></h6>
-  <h6>Numero de Tarjeta: <input type="text" name="numero_tarjeta" required></h6>
-  <h6 >CVV: <input type="text" name="cvv" required ></h6>
-</form>
+<div class = 'container'>
+ {% include  '_messages.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+<form method=post enctype='multipart/form-data'>
+        <div>
+            
+            {{ render_field(form.titular, class = 'form-control') }} 
+            {{ render_field(form.tarjeta, class = 'form-control') }}
+            {{ render_field(form.cvv, class = 'form-control' ) }}
+
+        </div>
 <br>
 <br>
 
